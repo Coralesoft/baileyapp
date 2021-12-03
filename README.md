@@ -1,2 +1,2 @@
 # baileyapp
-Python app for school
+Helping Bailey with his Python app for school
