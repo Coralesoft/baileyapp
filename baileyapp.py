@@ -11,7 +11,7 @@ Created on Tue Nov 30 22:12:18 2021
 #-----------------------------------------------------------------------------
 import os
 import sys
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from time import sleep
 
 #------------------------------------------------------------------------------
@@ -319,6 +319,10 @@ def setRating():
 
 
 #-----------------------------------------------------------------------------
+#   
+#   Function 
+#
+#-----------------------------------------------------------------------------
 
 def setLowReviews(maxRevs):
     invalid = True
@@ -560,21 +564,26 @@ def filterRevData(filterData):
 #-----------------------------------------------------------------------------
 
 def filterDataSet():
-    filterData = appData
-    tempData = []#-----------------------------------------------------------------------------
+    #-- Take a copy of the data read from the file
+    filterData = appData.copy()
+    tempData = []
     if catSet:
+        # filter Category Data
         tempData = filterCatData(filterData)
         filterData.clear()
         filterData = tempData
     if RatingSet:
+        #filter Ratings Data
         tempData = filterRatingsData(filterData)
         filterData.clear()
         filterData = tempData
     if RevSet:
+        # filter review data
         tempData = filterRevData(filterData)
         filterData.clear()
         filterData = tempData
     if InstSet:
+        # filter install data
         tempData = filterRevData(filterData)
         filterData.clear()
         filterData = tempData
@@ -588,6 +597,7 @@ def filterDataSet():
 #
 #-----------------------------------------------------------------------------
 def printAppNames():
+    screen_clear()
     recCounts = 0
     filteredData = filterDataSet()
     for line in filteredData:
@@ -645,6 +655,15 @@ def filemenu():
 def graphCategories():
     print('stub Graph Cat')
     sleep(3)
+    time = [0, 1, 2, 3]
+    position = [0, 100, 200, 300]
+
+    plt.plot(time, position)
+    plt.xlabel('Time (hr)')
+    plt.ylabel('Position (km)')
+    
+    input("Press Enter to return to main menu...")
+    
 #-----------------------------------------------------------------------------
 #   
 #   Function 
