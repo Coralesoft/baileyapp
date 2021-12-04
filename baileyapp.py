@@ -647,20 +647,52 @@ def filemenu():
             os._exit(0)
         else:
             print('Invalid option. Please enter a number between 1 and 2.')
+            
+def processAppsCounts(dataset):
+    
+#     for line in dataset:
+#        splitline = line.strip().split(',')
+#        recCounts = recCounts+1
+#        if (recCounts >= 1):
+#            print(splitline[0])
+            
 #-----------------------------------------------------------------------------
 #   
 #   Function 
 #
 #-----------------------------------------------------------------------------            
 def graphCategories():
-    print('stub Graph Cat')
-    sleep(3)
-    time = [0, 1, 2, 3]
-    position = [0, 100, 200, 300]
+    recCounts = 0
+    x_category = []
+    y_number_of_apps = []
 
-    plt.plot(time, position)
-    plt.xlabel('Time (hr)')
-    plt.ylabel('Position (km)')
+    print('stub Graph Cat')
+    graphData = filterDataSet()
+    
+        
+    for line in graphData:
+        splitline = line.strip().split(',')
+        recCounts = recCounts+1
+        if (recCounts >= 1):
+            x_category.append(splitline[1])
+        
+    print(len(x_category))
+    uniqueCat = list(dict.fromkeys(x_category))
+    if len(uniqueCat)==1:
+        y_number_of_apps.append(recCounts)
+        plt.bar(uniqueCat, y_number_of_apps, color ='green',
+        width = 0.1)
+    else:
+        
+
+        
+
+    #sleep(3)
+
+   # plt.plot(x_category , y_number_of_apps)
+    plt.xlabel('Category')
+    plt.ylabel('Number of Apps')
+    plt.show()
     
     input("Press Enter to return to main menu...")
     
