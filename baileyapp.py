@@ -12,6 +12,7 @@ Created on Tue Nov 30 22:12:18 2021
 import os
 import sys
 import matplotlib.pyplot as plt
+import numpy as np
 from time import sleep
 
 #------------------------------------------------------------------------------
@@ -648,17 +649,31 @@ def filemenu():
         else:
             print('Invalid option. Please enter a number between 1 and 2.')
             
-def processAppsCounts(dataset):
-    
-#     for line in dataset:
-#        splitline = line.strip().split(',')
-#        recCounts = recCounts+1
-#        if (recCounts >= 1):
-#            print(splitline[0])
+def processAppsCounts(dataset, categorySerach):
+    recCounts = 0
+    for line in dataset:
+        splitline = line.strip().split(',')
+        if splitline[1]==categorySerach:
+            recCounts = recCounts +1
+                
+    return recCounts
+
+
+def processRatingCounts(dataset, ratingSerach):
+    recCounts = 0
+    for line in dataset:
+        splitline = line.strip().split(',')
+        try:
+            if int(float((splitline[2])))==ratingSerach:
+                recCounts = recCounts +1
+        except:    
+            recCounts = recCounts +1
+                
+    return recCounts
             
 #-----------------------------------------------------------------------------
 #   
-#   Function 
+#   Function graphCategories()
 #
 #-----------------------------------------------------------------------------            
 def graphCategories():
@@ -669,41 +684,91 @@ def graphCategories():
     print('stub Graph Cat')
     graphData = filterDataSet()
     
-        
+        #get the cat list from the filtered list
     for line in graphData:
         splitline = line.strip().split(',')
-        recCounts = recCounts+1
         if (recCounts >= 1):
             x_category.append(splitline[1])
-        
-    print(len(x_category))
+        recCounts = recCounts+1        
+    #make it a unique set of categories    
     uniqueCat = list(dict.fromkeys(x_category))
+    print(len(uniqueCat))
     if len(uniqueCat)==1:
         y_number_of_apps.append(recCounts)
         plt.bar(uniqueCat, y_number_of_apps, color ='green',
         width = 0.1)
     else:
-        
+        for i in range(len(uniqueCat)):
+            y_number_of_apps.append(processAppsCounts(graphData, uniqueCat[i]))
 
-        
-
-    #sleep(3)
-
-   # plt.plot(x_category , y_number_of_apps)
+    
+    y_pos = np.arange(len(uniqueCat))                
     plt.xlabel('Category')
     plt.ylabel('Number of Apps')
+    plt.xticks(y_pos, uniqueCat, color='black', rotation=90, fontweight='normal', fontsize='8', horizontalalignment='right')
+    #sleep(3)
+ #   plt.bar(uniqueCat, y_number_of_apps, color ='green', width = 0.2)
+    plt.scatter(uniqueCat, y_number_of_apps)
+   # plt.plot(x_category , y_number_of_apps)
+    
     plt.show()
     
     input("Press Enter to return to main menu...")
     
 #-----------------------------------------------------------------------------
 #   
-#   Function 
+#   Function graphRatings():
 #
 #-----------------------------------------------------------------------------    
 def graphRatings():
     print('stub Graph Rating')
-    sleep(3)
+    recCounts = 0
+    x_ratings = []
+    y_number_of_apps = []
+    ratingNumber=0
+
+
+    print('stub Graph Rating')
+    graphData = filterDataSet()
+    
+        #get the Ratings and round to whole number from the filtered list
+    for line in graphData:
+        splitline = line.strip().split(',')
+        if (recCounts >= 1):
+            ratingNumber = splitline[2]
+            try:
+                x_ratings.append(int(float(ratingNumber)))
+            except:
+                print('Wrong input. Please enter a number ...')
+                print(splitline[0])
+                x_ratings.append(int(float(5)))
+                
+                
+        recCounts = recCounts+1        
+    #make it a unique set of Ratings    
+    uniqueCat = list(dict.fromkeys(x_ratings))
+    print(len(uniqueCat))
+    if len(uniqueCat)==1:
+        y_number_of_apps.append(recCounts)
+        plt.bar(uniqueCat, y_number_of_apps, color ='green',
+        width = 0.1)
+    else:
+        for i in range(len(uniqueCat)):
+            y_number_of_apps.append(processRatingCounts(graphData, uniqueCat[i]))
+
+    uniqueCat.sort();
+            
+    plt.xlabel('Ratings')
+    plt.ylabel('Number of Apps')
+    #plt.xticks(y_pos, uniqueCat, color='black', rotation=90, fontweight='normal', fontsize='8', horizontalalignment='right')
+    #sleep(3)
+    plt.bar(uniqueCat, y_number_of_apps, color ='green', width = 0.3)
+    #plt.scatter(uniqueCat, y_number_of_apps)
+   # plt.plot(x_category , y_number_of_apps)
+    
+    plt.show()
+    
+    input("Press Enter to return to main menu...")
 #-----------------------------------------------------------------------------
 #   
 #   Function 
