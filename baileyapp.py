@@ -252,9 +252,10 @@ def processFileDataForFilters(appData):
 def setlowRating():
     invalid = True
     global lowRating
+    lowRating=0
     while(invalid):
         try:
-            lowRating = float(input('please enter low rating: '))
+            lowRating = int(float(input('please enter low rating: ')))
         except:
             print('Wrong input. Please enter a number ...')
         #Check what choice was entered and act accordingly
@@ -681,7 +682,7 @@ def graphCategories():
     x_category = []
     y_number_of_apps = []
 
-    print('stub Graph Cat')
+    #print('stub Graph Cat')
     graphData = filterDataSet()
     
         #get the cat list from the filtered list
@@ -692,7 +693,7 @@ def graphCategories():
         recCounts = recCounts+1        
     #make it a unique set of categories    
     uniqueCat = list(dict.fromkeys(x_category))
-    print(len(uniqueCat))
+    #print(len(uniqueCat))
     if len(uniqueCat)==1:
         y_number_of_apps.append(recCounts)
         plt.bar(uniqueCat, y_number_of_apps, color ='green',
@@ -739,8 +740,8 @@ def graphRatings():
             try:
                 x_ratings.append(int(float(ratingNumber)))
             except:
-                print('Wrong input. Please enter a number ...')
-                print(splitline[0])
+                #print('Wrong input. Please enter a number ...')
+                #print(splitline[0])
                 x_ratings.append(int(float(5)))
                 
                 
@@ -752,21 +753,22 @@ def graphRatings():
         y_number_of_apps.append(recCounts)
         plt.bar(uniqueCat, y_number_of_apps, color ='green',
         width = 0.1)
+        plt.show()
     else:
         for i in range(len(uniqueCat)):
             y_number_of_apps.append(processRatingCounts(graphData, uniqueCat[i]))
 
-    uniqueCat.sort();
+        uniqueCat.sort();
             
-    plt.xlabel('Ratings')
-    plt.ylabel('Number of Apps')
+        plt.xlabel('Ratings')
+        plt.ylabel('Number of Apps')
     #plt.xticks(y_pos, uniqueCat, color='black', rotation=90, fontweight='normal', fontsize='8', horizontalalignment='right')
     #sleep(3)
-    plt.bar(uniqueCat, y_number_of_apps, color ='green', width = 0.3)
+        plt.bar(uniqueCat, y_number_of_apps, color ='green', width = 0.3)
     #plt.scatter(uniqueCat, y_number_of_apps)
    # plt.plot(x_category , y_number_of_apps)
     
-    plt.show()
+        plt.show()
     
     input("Press Enter to return to main menu...")
 #-----------------------------------------------------------------------------
